@@ -11,8 +11,8 @@ var app=express();
 // ------- set settings ----------- 
 /*
 index.setSettings({
-    'customRanking': ['desc(followers)'],
-    'searchableAttributes': [
+    'customRanking': ['desc(followers)'],  // oder by number of followes desc
+    'searchableAttributes': [  // set attributes to search with
         'lastname',
         'firstname',
         'company',
