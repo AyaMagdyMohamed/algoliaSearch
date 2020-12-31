@@ -5,6 +5,9 @@ const index = client.initIndex('contacts');
 
 const contactsJSON = require('./contacts.json');
 
+const express = require("express");
+var app=express();
+
 // ------- set settings ----------- 
 /*
 index.setSettings({
@@ -33,13 +36,19 @@ index.setSettings({
 });*/
 
 // search 
-index.search('jimmie').then(({ hits }) => {
-    console.log(hits);
-  });
-  
-  // Search for a first name with typo
-  index.search('jimie').then(({ hits }) => {
-    console.log("---------typo---------")
-    console.log(hits);
-  });
+app.get("/search/:name", async function (req, resp) {
 
+    const name = req.params.name;
+    index.search(name).then(({ hits }) => {
+        console.log(hits);
+        resp.send(hits);
+      });
+
+})
+
+  
+
+app.listen(8090, function() {
+
+    console.log("connected");
+});
