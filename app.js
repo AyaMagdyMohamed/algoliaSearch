@@ -49,6 +49,24 @@ app.get("/search/:name", async function (req, resp) {
 })
 
 
+
+// GraphQL schema
+var schema = buildSchema(`
+    type Query {
+        contact(id: Int!): Contact
+        contacts(firstname: String): [Contact]
+    },
+    type Contact {
+        id: Int
+        lastname: String
+        firstname: String
+        company: String
+        email: String
+        city: String
+        address: String
+    }
+`);
+
 var getContacts = async function(name) {
 
     const contacts = await index.search(name.firstname);
