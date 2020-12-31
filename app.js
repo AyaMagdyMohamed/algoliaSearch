@@ -48,8 +48,6 @@ app.get("/search/:name", async function (req, resp) {
 
 })
 
-
-
 // GraphQL schema
 var schema = buildSchema(`
     type Query {
@@ -82,6 +80,48 @@ app.use('/graphql4', graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: true
+}));
+
+
+const productIndex = client.initIndex('products');
+
+ const productSchema = buildSchema(`
+  type Query {
+    product(sku: String): Product
+    products(name: String): [Product]
+  },
+  type Product {
+    sku: String
+    name: String
+  }
+`);
+
+// Return a single product (based on sku)
+const getProduct = async function(args) {
+  
+    const products = await productIndex.search(args.sku);
+    return products.hits[0] ;
+};
+
+// Return a list of products 
+const retrieveProducts = async function(args) {
+    const products = await productIndex.search(args.name);
+    console.log("products", products);
+    return products.hits ;
+};
+
+// The root provides a resolver function for each API endpoint
+// Root resolver
+ root = {
+    product: getProduct,  // Resolver function to return product with specific sku
+    products: retrieveProducts
+};
+
+
+app.use('/products', graphqlHTTP({
+    schema: productSchema,
+    rootValue: root,
+    graphiql: true,
 }));
 
 app.listen(8000, function() {
