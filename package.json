@@ -18,6 +18,8 @@
   "homepage": "https://github.com/AyaMagdyMohamed/algoliaSearch#readme",
   "dependencies": {
     "algoliasearch": "^4.8.3",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.4.0"
   }
 }
