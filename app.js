@@ -47,9 +47,11 @@ app.use('/products', graphqlHTTP({
     schema: productSchema,
     rootValue: root,
     graphiql: true,
-}));
+}))
 
-app.listen(8000, function() {
+
+
+app.listen(process.env.PORT || 8000, function() {
 
     console.log("connected");
 });
